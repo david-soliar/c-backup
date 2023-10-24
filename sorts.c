@@ -2,38 +2,41 @@
 #include <stdlib.h>
 #include <string.h>
 
-void output(int [], int, char *);
-void insertion_sort(int [], int);
-void selection_sort(int [], int);
+#define N 20
+
+void output(int [], char *);
+void insertion_sort(int []);
+void selection_sort(int []);
+void bubble_sort(int []);
 
 int main(){
-  int n = 20;
-  int A[n];
-  for(int i=0; i<n; i++){
+  int A[N];
+  for(int i=0; i<N; i++){
     A[i]=rand()%100;
   }
-  output(A, n, "original array");
+  output(A, "original array");
   printf("\n");
 
-  insertion_sort(A, n);
-  selection_sort(A, n);
+  insertion_sort(A);
+  selection_sort(A);
+  bubble_sort(A);
   return 0;
 }
 
-void output(int A[], int n, char *algo_name){
-  printf("%s: ", algo_name);
-  for(int i=0; i<n; i++){
+void output(int A[], char *algo_name){
+  printf("%-*s: ", 15, algo_name);
+  for(int i=0; i<N; i++){
     printf("%i ", A[i]);
   }
   printf("\n");
 }
 
-void insertion_sort(int B[], int n){
-  int A[n];
-  memcpy(A, B, n*sizeof(int));
+void insertion_sort(int B[]){
+  int A[N];
+  memcpy(A, B, N*sizeof(int));
 
   int t, j;
-  for (int i = 1; i < n; i++){
+  for (int i = 1; i < N; i++){
     t = A[i];
     j = i-1;
     while ((j>=0) && (A[j]>t)){
@@ -43,19 +46,19 @@ void insertion_sort(int B[], int n){
     A[j+1] = t; /*tu je +1 lebo pokial sa dostane az na koniec tak j=-1 preto treba dat na 0 a pokial to skonci vo while tak podmienka neplati ale j sa zmensilo o 1*/
   }
 
-  output(A, n, "insertion sort");
+  output(A, "insertion sort");
 }
 
-void selection_sort(int B[], int n){
-  int A[n];
-  memcpy(A, B, n*sizeof(int));
+void selection_sort(int B[]){
+  int A[N];
+  memcpy(A, B, N*sizeof(int));
 
   int A_min, t;
 
-  for (int i = 0; i < (n-1); i++){
+  for (int i = 0; i < (N-1); i++){
     A_min = i;
     
-    for (int j = (i+1); j < n; j++){
+    for (int j = (i+1); j < N; j++){
       if (A[j] < A[A_min]){
         A_min = j;
       }
@@ -64,5 +67,22 @@ void selection_sort(int B[], int n){
     A[i] = A[A_min];
     A[A_min] = t;
   }
-  output(A, n, "selection sort");
+  output(A, "selection sort");
+}
+
+void bubble_sort(int B[]){
+  int A[N];
+  memcpy(A, B, N*sizeof(int));
+
+  int t;
+  for (int i = 0; i <= (N-2); i++){
+    for (int j = (N-1); j >= (i+1); j--){
+      if (A[j] < A[j-1]){
+        t = A[j];
+        A[j] = A[j-1];
+        A[j-1] = t;
+      }
+    }
+  }
+  output(A, "bubble sort");
 }
