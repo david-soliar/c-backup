@@ -8,6 +8,7 @@ void output(int [], char *);
 void insertion_sort(int []);
 void selection_sort(int []);
 void bubble_sort(int []);
+void optimized_bubble_sort(int []);
 
 int main(){
   int A[N];
@@ -20,11 +21,12 @@ int main(){
   insertion_sort(A);
   selection_sort(A);
   bubble_sort(A);
+  optimized_bubble_sort(A);
   return 0;
 }
 
 void output(int A[], char *algo_name){
-  printf("%-*s: ", 15, algo_name);
+  printf("%-*s: ", 32, algo_name);
   for(int i=0; i<N; i++){
     printf("%i ", A[i]);
   }
@@ -69,6 +71,7 @@ void selection_sort(int B[]){
   }
   output(A, "selection sort");
 }
+//najlepsia a najhorsia je obidvoje n**2
 
 void bubble_sort(int B[]){
   int A[N];
@@ -86,3 +89,26 @@ void bubble_sort(int B[]){
   }
   output(A, "bubble sort");
 }
+//najlepsia a najhorsia je obidvoje n**2
+
+void optimized_bubble_sort(int B[]){
+  int A[N];
+  memcpy(A, B, N*sizeof(int));
+
+  int t;
+  int s;
+  for (int i = 0; i < (N-1); i++){
+    for (int j = (N-1); j > (N-s); j--){
+      if (A[j] < A[j-1]){
+        t = A[j];
+        A[j] = A[j-1];
+        A[j-1] = t;
+        s = j;
+      }
+    }
+    if (s==(N-1)){
+      printf("%i ", i);
+      break;
+  }
+}
+output(A, "optimized bubble sort");}
