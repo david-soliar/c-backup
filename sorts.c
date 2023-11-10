@@ -95,10 +95,10 @@ void optimized_bubble_sort(int B[]){
   int A[N];
   memcpy(A, B, N*sizeof(int));
 
-  int t;
-  int s;
-  for (int i = 0; i < (N-1); i++){
-    for (int j = (N-1); j > (N-s); j--){
+  int s, t;
+  int x = 0;
+  for (int i = 0; i < (N-2); i++){
+    for (int j = (N-1); j > x; j--){
       if (A[j] < A[j-1]){
         t = A[j];
         A[j] = A[j-1];
@@ -106,9 +106,10 @@ void optimized_bubble_sort(int B[]){
         s = j;
       }
     }
-    if (s==(N-1)){
-      printf("%i ", i);
+    if (s==x){
       break;
+    }
+    x = s; //musim pouzit aj x lebo keby s je v podmienke for cyklu tak to berie vzdy to nove s a to je fail
   }
+  output(A, "optimized bubble sort");
 }
-output(A, "optimized bubble sort");}
