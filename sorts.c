@@ -9,12 +9,17 @@ void insertion_sort(int []);
 void selection_sort(int []);
 void bubble_sort(int []);
 void optimized_bubble_sort(int []);
+void continuous_set_sort(int []);
 
 int main(){
   int A[N];
   for(int i=0; i<N; i++){
     A[i]=rand()%100;
   }
+
+  int X[] = {4, 9, 16, 17, 13, 10, 6, 12, 5, 15, 7, 3, 8, 21, 18, 22, 20, 19, 14, 11};
+  continuous_set_sort(X);
+
   output(A, "original array");
   printf("\n");
 
@@ -112,4 +117,32 @@ void optimized_bubble_sort(int B[]){
     x = s; //musim pouzit aj x lebo keby s je v podmienke for cyklu tak to berie vzdy to nove s a to je fail
   }
   output(A, "optimized bubble sort");
+}
+
+void continuous_set_sort(int B[]){
+  int A[N];
+  memcpy(A, B, N*sizeof(int));
+  
+  int t = A[N-1];
+  for (int i = 0; i < (N-1); i++){
+    if (A[i]<t){
+      t = A[i];
+    }
+  }//toto najde najmensi prvok
+  
+  for (int i = 0; i < N; i++){
+    A[i] = A[i] - t;
+  }
+  
+  int final_A[N];
+  for (int i = 0; i < N; i++){
+    final_A[A[i]] = B[i];
+  }
+  //primerny pripad je cca 11n+2
+  //lepsi ako quicksort pre c = 1 a n0 = 2**11 teda n zacina na 2**12
+
+  output(B, "original for continuous set sort");
+  output(final_A, "continuous set sort");
+  printf("\n");
+  printf("\n");
 }
