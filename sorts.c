@@ -1,24 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
+#include <limits.h>
 
 #define N 20
 
 void output(int [], char *);
+
 void insertion_sort(int []);
+
 void selection_sort(int []);
+
 void bubble_sort(int []);
+
 void optimized_bubble_sort(int []);
-void continuous_set_sort(int []);
+
+void cocktail_sort(int []);
+
+void quick_sort_init(int []);
+void quick_sort(int [], int, int);
+int partition(int [], int, int);
+
+void merge_sort_init(int []);
+void merge_sort(int [], int, int);
+void merge(int [], int, int, int);
 
 int main(){
   int A[N];
   for(int i=0; i<N; i++){
     A[i]=rand()%100;
   }
-
-  int X[] = {4, 9, 16, 17, 13, 10, 6, 12, 5, 15, 7, 3, 8, 21, 18, 22, 20, 19, 14, 11};
-  continuous_set_sort(X);
 
   output(A, "original array");
   printf("\n");
@@ -27,6 +39,9 @@ int main(){
   selection_sort(A);
   bubble_sort(A);
   optimized_bubble_sort(A);
+  cocktail_sort(A);
+  quick_sort_init(A);
+  merge_sort_init(A);
   return 0;
 }
 
@@ -119,30 +134,110 @@ void optimized_bubble_sort(int B[]){
   output(A, "optimized bubble sort");
 }
 
-void continuous_set_sort(int B[]){
+void cocktail_sort(int B[]){
   int A[N];
   memcpy(A, B, N*sizeof(int));
-  
-  int t = A[N-1];
-  for (int i = 0; i < (N-1); i++){
-    if (A[i]<t){
-      t = A[i];
+  int p = 0;
+  int q = N-1;
+  int t;
+  while (abs(q-p)>1){
+    for (int j = q; j > p; j--){
+      if (A[j] < A[j-1]){
+        t = A[j];
+        A[j] = A[j-1];
+        A[j-1] = t;
+      }
     }
-  }//toto najde najmensi prvok
-  
-  for (int i = 0; i < N; i++){
-    A[i] = A[i] - t;
+    p++;
+    for (int j = p; j < q; j++){
+      if (A[j] > A[j+1]){
+        t = A[j];
+        A[j] = A[j+1];
+        A[j+1] = t;
+      }
+    }
+    q--;
   }
-  
-  int final_A[N];
-  for (int i = 0; i < N; i++){
-    final_A[A[i]] = B[i];
-  }
-  //primerny pripad je cca 11n+2
-  //lepsi ako quicksort pre c = 1 a n0 = 2**11 teda n zacina na 2**12
+  output(A, "cocktail sort");
+}
 
-  output(B, "original for continuous set sort");
-  output(final_A, "continuous set sort");
-  printf("\n");
-  printf("\n");
+void quick_sort_init(int B[]){
+  int A[N];
+  memcpy(A, B, N*sizeof(int));
+
+  quick_sort(A, 0, N-1);
+  output(A, "quick sort");
+}
+
+void quick_sort(int B[], int p, int r){
+  if (p<r){
+    int q = partition(B, p, r);
+    quick_sort(B, p, q-1);
+    quick_sort(B, q+1, r);
+  }
+}
+
+int partition(int B[], int p, int r){
+  int x = B[r];
+  int i = p-1;
+  int t;
+  for (int j = p; j <= r-1; j++){
+    if (B[j]<=x){
+      i++;
+      t = B[i];
+      B[i] = B[j];
+      B[j] = t;
+    }
+  }
+  t = B[i+1];
+  B[i+1] = B[r];
+  B[r] = t;
+
+  return i+1; 
+}
+
+void merge_sort_init(int B[]){
+  int A[N];
+  memcpy(A, B, N*sizeof(int));
+
+  merge_sort(A, 0, N-1);
+  output(A, "merge sort");
+}
+
+void merge_sort(int B[], int p, int r){
+  if (p<r){
+    int q = floor((p+r)/2);
+    merge_sort(B, p, q);
+    merge_sort(B, q+1, r);
+    merge(B, p, q, r);
+  }
+}
+
+void merge(int B[], int p, int q, int r){
+  int n1 = q-p+1;
+  int n2 = r-q;
+  int L[N]; //n1+1
+  int R[N]; //n2+1
+  for (int i = 0; i <= n1-1; i++){
+    L[i] = B[p+i];
+  }
+  for (int j = 0; j <= n2-1; j++){
+    R[j] = B[q+j+1];
+  }
+  L[n1] = INT_MAX;
+  R[n2] = INT_MAX;
+
+  int i = 0;
+  int j = 0;
+
+  for (int k = p; k <= r; k++){
+    if (L[i]<=R[j]){
+      B[k]=L[i];
+      i++;
+    }
+    else{
+      B[k]=R[j];
+      j++;
+    }
+  }
 }
