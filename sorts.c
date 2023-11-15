@@ -26,6 +26,13 @@ void merge_sort_init(int []);
 void merge_sort(int [], int, int);
 void merge(int [], int, int, int);
 
+int parent(int);
+int left(int);
+int right(int);
+void max_heapify(int [], int);
+void build_max_heap(int []);
+void heap_sort(int []);
+
 int main(){
   int A[N];
   for(int i=0; i<N; i++){
@@ -42,6 +49,7 @@ int main(){
   cocktail_sort(A);
   quick_sort_init(A);
   merge_sort_init(A);
+  heap_sort(A);
   return 0;
 }
 
@@ -240,4 +248,66 @@ void merge(int B[], int p, int q, int r){
       j++;
     }
   }
+}
+
+int heap_size;
+
+int parent(int i){
+  return (i-1)/2;
+}
+
+int left(int i){
+  return 2*i + 1;
+}
+
+int right(int i){
+  return 2*i + 2;
+}
+
+void max_heapify(int B[], int i){
+  int l = left(i);
+  int r = right(i);
+  int largest;
+
+  if ((l<=heap_size) && (B[l]>B[i])){
+    largest = l;
+  }
+  else{
+    largest = i;
+  }
+
+  if ((r<=heap_size) && (B[r]>B[largest])){
+    largest = r;
+  }
+
+  if (largest != i){
+    int t = B[largest];
+    B[largest] = B[i];
+    B[i] = t;
+    
+    max_heapify(B, largest);
+  }
+}
+
+void build_max_heap(int B[]){
+  heap_size = N-1; //tu musi byt N-1 alebo porovnania v heapify musia byt bez rovna sa pri heapsize
+  for (int i = N/2-1; i >= 0; i--){
+    max_heapify(B, i);
+  }
+}
+
+void heap_sort(int B[]){
+  int A[N];
+  memcpy(A, B, N*sizeof(int));
+  
+  build_max_heap(A);
+  for (int i = (N-1); i >= 1; i--){
+    int t = A[0];
+    A[0] = A[i];
+    A[i] = t;
+    heap_size--;
+    max_heapify(A, 0);
+  }
+  
+  output(A, "heap sort");
 }
