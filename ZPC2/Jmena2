@@ -1,0 +1,17 @@
+
+const char Jmena[]=
+  "MarieJanJanaPetrJosefPavelJaroslavMartinMiroslavEva"
+  "AnnaHanaKarelLenkaMilanMichalAlenaPetraLucieJaroslava"
+  "LudmilaHelenaDavidLadislavJitkaMartinaJakubVeronikaJarmilaStanislav"
+  "MichaelaIvanaRomanMonikaTerezaZuzanaRadekVlastaMarcelaMarek"
+  "DagmarDanaDanielMartaIrenaMiroslavaBarboraPavlaMiloslavOlga"
+  "AndreaIvetaFilipBlankaMiladaIvanZdenkaLiborRenataRudolf"
+  "VlastimilNikolaGabrielaAdamRadkaSimonaMilenaMiloslavaIvaDaniela"
+  "PatrikBohumilDenisaRobertRomanaAnetaIlonaDominikStanislavaEmilie"
+  "RadimRichardKamilaIvoRostislavVladislavBohuslavAloisVitKamil"
+  "JozefVendulaBohumilaViktorEmilMichaelLadislavaMagdalenaEduardDominika"
+  "MarcelSabinaJulieAntonieAlicePeterDaliborKristinaOtakarKarla"
+  "HedvikaAlexandraSilvieErikaNelaVratislavNikolLeonaJolanaMargita"
+  "BohuslavaRadovanJosefaTerezieMarianLindaIgor";
+
+#define POCET (sizeof Jmena/sizeof *Jmena -1)
